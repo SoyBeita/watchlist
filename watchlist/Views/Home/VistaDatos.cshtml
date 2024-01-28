@@ -1,14 +1,103 @@
-﻿
+﻿@using watchlist.Models.PeliculasYSeriesDto
 @{
     ViewData["Title"] = "VistaDatos";
 }
 
 @model watchlist.Models.PeliculasYSeriesDto.PeliculasYSeriesDto;
 
-<h1>VistaDatos de @Model.Usuario</h1>
+<h1>Hola @Model.Usuario</h1>
+
+<select id = "selector">
+    <option value = "value1" selected disabled>Seleccione una lista</option>
+    @if(Model.ListaPeliculasSeries != null)
+    {
+        @foreach (PeliculasYSeriesInfoDto listaPeliculasSeries in Model.ListaPeliculasSeries)
+        {
+            <option id="seleccion" value="@listaPeliculasSeries.Id">@listaPeliculasSeries.NombreLista</option>
+        }
+    }
+</select>
+<button id="abrirModal">Añadir nueva lista</button>
+<dialog id="modal">
+  
+            <input id="lista" type="text" placeholder="Nombre de la lista" name="lista" required />
+            <button id="aceptarModal">Aceptar</button>
+            <button id="cerrarModal">Cancelar</button>
+</dialog>
+<button id="catalogo">Ir al catálogo</button>
+
+<div id="DatosPeliculasYSeriesPorLista"></div>
 
 
-<script> 
+<script>
+    let global;
 
+    $(document).ready(function () {
 
+        $("#aceptarModal").click(function () {
+            let textoNuevaLista = $("#lista").val();
+            let usuarioLogin = '@Model.Usuario';
+
+            $.ajax({
+                type: "POST",
+                url: "/home/CrearNuevaLista",
+                data: {
+                    Usuario: usuarioLogin, NombreLista: textoNuevaLista
+                },
+                success: function (listaCreada) {
+                    
+                    if(listaCreada){
+                        alert("Lista Creada Correctamente");
+                        $('#modal').hide();
+
+                    }
+                    else{
+                        alert("Error al crear nueva lista");
+                        $('#modal').hide();
+                    }
+                },
+            })
+
+        });
+        
+        $("#selector").change(function () {
+            //llamo a la funcion cargar datos
+            let usuarioLogin = '@Model.Usuario';
+            let listaSeleccionada = $("#selector option:selected").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Catalogo/DatosListaUsuario",
+                data: {
+                    Usuario: usuarioLogin, IdLista: listaSeleccionada
+                },
+                success: function (htmlDatos) {
+                    global = htmlDatos;
+                    $("#DatosPeliculasYSeriesPorLista").html(htmlDatos);
+                },
+            })
+        })
+
+   
+        $('#abrirModal').click(function () {
+            $('#modal').show();
+        });
+        $('#cerrarModal').click(function () {
+            $('#modal').hide();
+        });
+
+        $('#catalogo').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/Catalogo",
+                data: {
+                    
+                },
+                success: function (html) {
+
+                    $("#Contenedor").html(html)
+                },
+            })
+        });
+    });
 </script>

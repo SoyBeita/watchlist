@@ -1,0 +1,26 @@
+﻿@using watchlist.Models.PeliculasYSeriesDto
+@{
+    ViewData["Title"] = "Catalogo";
+}
+@model watchlist.Models.Catalogo.InfoCompletaPeliculasYSeriesDto
+
+<h1>catalogo de peliculas</h1>
+
+@if (Model.listaSeriesYPeliculas != null && Model.listaSeriesYPeliculas.Count > 0)
+{
+    <ul>
+       @foreach (DatosPeliculasYSeriesDto datos in Model.listaSeriesYPeliculas)
+        {
+            <li><a href = "" onclick="ObtenerFicha(@datos)">  @datos.Nombre</a></li>
+        }
+    </ul>
+    
+}
+
+<script>
+    let global;
+   function ObtenerFicha(datos){
+       global = datos;
+    }
+
+</script>

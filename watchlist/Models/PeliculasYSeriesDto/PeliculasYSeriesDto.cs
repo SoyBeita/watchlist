@@ -3,7 +3,7 @@
     public class PeliculasYSeriesDto
     {
         public string? Usuario { get; set; }
-        public List<string>? ListaPeliculasSeries { get; set; }
+        public List<PeliculasYSeriesInfoDto>? ListaPeliculasSeries { get; set; }
 
     }
 }

@@ -17,10 +17,17 @@ namespace watchlist.Servicios
             dto.Usuario = Usuario;
 
             Conexion_bbdd bbdd = new Conexion_bbdd();
-            List<string> listaPeliculas =  bbdd.ObtenerListaPeliculasSeries(Usuario);
+            List<PeliculasYSeriesInfoDto> listaPeliculas =  bbdd.ObtenerListaPeliculasSeries(Usuario);
             dto.ListaPeliculasSeries = listaPeliculas;
 
             return dto;
+        }
+
+        public bool CrearNuevaLista(string nuevaLista)
+        {
+            Conexion_bbdd bbdd = new Conexion_bbdd();
+            bool inserccionCorrecta = bbdd.CrearNuevaLista(nuevaLista, Usuario);
+            return inserccionCorrecta;
         }
     }
 }

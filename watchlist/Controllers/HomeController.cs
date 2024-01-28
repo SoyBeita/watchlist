@@ -28,13 +28,24 @@ namespace watchlist.Controllers
             PeliculasYSeriesService peliculasYSeriesService = new PeliculasYSeriesService(datosLogin.Usuario);
             PeliculasYSeriesDto peliculasYSeries = peliculasYSeriesService.ObtenerListaPeliculasSeries();
 
-
-
             return View(peliculasYSeries);
         }
 
-      
+        public ActionResult CrearNuevaLista(NuevaListaDto nuevaListaDto)
+        {
 
-    
+            PeliculasYSeriesService peliculasYSeriesService = new PeliculasYSeriesService(nuevaListaDto.Usuario);
+            bool inserccionNueva = peliculasYSeriesService.CrearNuevaLista(nuevaListaDto.NombreLista);
+
+            return Json(inserccionNueva);
+        }
+
+
+
+
+
+
+
+
     }
 }
