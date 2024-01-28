@@ -31,6 +31,11 @@ namespace watchlist.Servicios
         {
             Conexion_bbdd bbdd = new Conexion_bbdd();
             return bbdd.AddNuevaPeliculaSerieALista(idLista, tipo, idPeliculaSerie);
+        }        
+        public List<DatosPeliculasYSeriesDto> ObtenerTodoCatalogoFiltrado(string textoFiltrado)
+        {
+            Conexion_bbdd bbdd = new Conexion_bbdd();
+            return bbdd.ObtenerTodoCatalogoFiltrado(textoFiltrado);
         }
 
     }

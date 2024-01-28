@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using watchlist.Models.Catalogo;
 using watchlist.Models.PeliculasYSeriesDto;
 using watchlist.Servicios;
@@ -21,13 +22,22 @@ namespace watchlist.Controllers
         }
         
         [HttpPost]
-        public ActionResult CatalogoCompleto()
+        public ActionResult CatalogoCompleto(string textoFiltrado)
         {
             CatalogoService catalogoService = new CatalogoService();
-            List<DatosPeliculasYSeriesDto> listaSeriesYPeliculasCompletas = catalogoService.ObtenerTodoCatalogo();
+            List<DatosPeliculasYSeriesDto> listaSeriesYPeliculas;
+
+            if (string.IsNullOrEmpty(textoFiltrado))
+            {
+                listaSeriesYPeliculas = catalogoService.ObtenerTodoCatalogo();
+            }
+            else
+            {
+                listaSeriesYPeliculas = catalogoService.ObtenerTodoCatalogoFiltrado(textoFiltrado);
+            }            
 
             InfoCompletaPeliculasYSeriesDto infoCompletaPeliculasYSeriesDto = new InfoCompletaPeliculasYSeriesDto();
-            infoCompletaPeliculasYSeriesDto.listaSeriesYPeliculas = listaSeriesYPeliculasCompletas;
+            infoCompletaPeliculasYSeriesDto.listaSeriesYPeliculas = listaSeriesYPeliculas;
 
             return PartialView(infoCompletaPeliculasYSeriesDto);
 

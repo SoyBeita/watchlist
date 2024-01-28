@@ -8,6 +8,12 @@
 
 @if (Model.listaSeriesYPeliculas != null && Model.listaSeriesYPeliculas.Count > 0)
 {
+    
+    <div>
+        <input type="text" id="Busqueda" placeholder="Introduce campos a buscar" />
+        <input type="button" id="Buscar" value="Buscar"/>
+    </div>
+    
 
     @foreach (DatosPeliculasYSeriesDto datos in Model.listaSeriesYPeliculas)
     {
@@ -39,6 +45,19 @@ else
 }
 <script>
 
+    $("#Buscar").click(function () {
+        let textoBusqueda = $("#Busqueda").val();               
+        $.ajax({
+            type: "POST",
+            url: "/Catalogo/CatalogoCompleto",
+            data: { textoFiltrado: textoBusqueda },
+            success: function (html) {
+                console.log(html);
+                $("#DatosPeliculasYSeriesPorLista").html(html)
+            }
+        });
+    });
+
 function MostrarFicha(id){
 
        let estaOculto = $("#" + id).prop('hidden');
@@ -66,5 +85,7 @@ function MostrarFicha(id){
             },
         })
     }
+
+
 
 </script>
