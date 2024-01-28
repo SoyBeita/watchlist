@@ -19,5 +19,28 @@ namespace watchlist.Controllers
 
             return PartialView(infoCompletaPeliculasYSeriesDto);
         }
+        
+        [HttpPost]
+        public ActionResult CatalogoCompleto()
+        {
+            CatalogoService catalogoService = new CatalogoService();
+            List<DatosPeliculasYSeriesDto> listaSeriesYPeliculasCompletas = catalogoService.ObtenerTodoCatalogo();
+
+            InfoCompletaPeliculasYSeriesDto infoCompletaPeliculasYSeriesDto = new InfoCompletaPeliculasYSeriesDto();
+            infoCompletaPeliculasYSeriesDto.listaSeriesYPeliculas = listaSeriesYPeliculasCompletas;
+
+            return PartialView(infoCompletaPeliculasYSeriesDto);
+
+        }
+
+        [HttpPost]
+        public ActionResult AddNuevaPeliculaSerieALista(string idLista, string tipo, int idPeliculaSerie)
+        {
+
+            CatalogoService catalogoService = new CatalogoService();
+            bool insertadoCorrectamente = catalogoService.AddNuevaPeliculaSerieALista(idLista, tipo, idPeliculaSerie);
+
+            return Json(insertadoCorrectamente);
+        }
     }
 }

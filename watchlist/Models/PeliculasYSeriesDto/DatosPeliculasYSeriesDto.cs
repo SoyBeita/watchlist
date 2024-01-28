@@ -8,5 +8,6 @@
         public string? Genero { get; set; }
         public int Fecha { get; set;}
         public string? Caratula { get; set;}
+        public string? Tipo { get; set; }
     }
 }

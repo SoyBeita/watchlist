@@ -147,7 +147,120 @@ namespace watchlist.Conexion_BBDD
             return datosPeliculasYSeriesDtos;
         }
 
+        public List<DatosPeliculasYSeriesDto> ObtenerTodoCatalogo()
+        {
+            List<DatosPeliculasYSeriesDto> datosPeliculasYSeriesDtos = new List<DatosPeliculasYSeriesDto>();
 
+            datosPeliculasYSeriesDtos.AddRange(ObtenerTodasPeliculas());
+            datosPeliculasYSeriesDtos.AddRange(ObtenerTodasSeries());
+
+            return datosPeliculasYSeriesDtos;
+        }
+
+        public bool AddNuevaPeliculaSerieALista(string idLista, string tipo, int idPeliculaSerie)
+        {
+            string? idSerie = "null";
+            string? idPelicula = "null";
+            
+            if(tipo == "PELICULA")
+            {
+                idPelicula = idPeliculaSerie.ToString();
+
+            }
+            else
+            {
+                idSerie = idPeliculaSerie.ToString();
+            }
+
+
+            MySqlCommand cmd = sqlConexion.CreateCommand();
+            cmd.CommandText = $"INSERT INTO `peliculas_series`(`id_lista_peliculas_series`, `id_peliculas`, `id_series`) VALUES ({idLista}, {idPelicula}, {idSerie})";
+
+            sqlConexion.Open();
+
+            int numeroInsercciones = cmd.ExecuteNonQuery();
+
+            cmd.Connection.Close();
+            sqlConexion.Close();
+
+            return numeroInsercciones > 0;
+        }
+
+        private List<DatosPeliculasYSeriesDto> ObtenerTodasPeliculas()
+        {
+            List<DatosPeliculasYSeriesDto> listaPeliculas = new List<DatosPeliculasYSeriesDto>();
+            MySqlCommand cmd = sqlConexion.CreateCommand();
+            cmd.CommandText = $"SELECT * FROM peliculas";
+
+            sqlConexion.Open();
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                DatosPeliculasYSeriesDto datosPeliculasYSeriesDto = new DatosPeliculasYSeriesDto();
+
+                int idPelicula = reader.GetInt32(COLUMNA_ID_PELICULAS_SERIES);
+                string nombrePelicula = reader.GetString(COLUMNA_NOMBRE_PELICULAS_SERIES);
+                string descripcionPelicula = reader.GetString(COLUMNA_DESCRIPCION_PELICULAS_SERIES);
+                string generoPelicula = reader.GetString(COLUMNA_GENERO_PELICULAS_SERIES);
+                int fechaPelicula = reader.GetInt32(COLUMNA_FECHA_PELICULAS_SERIES);
+                string caratulaPelicula = reader.GetString(COLUMNA_CARATULA_PELICULAS_SERIES);
+
+                datosPeliculasYSeriesDto.Id = idPelicula;
+                datosPeliculasYSeriesDto.Nombre = nombrePelicula;
+                datosPeliculasYSeriesDto.Descripcion = descripcionPelicula;
+                datosPeliculasYSeriesDto.Genero = generoPelicula;
+                datosPeliculasYSeriesDto.Fecha = fechaPelicula;
+                datosPeliculasYSeriesDto.Caratula = caratulaPelicula;
+                datosPeliculasYSeriesDto.Tipo = "PELICULA";
+
+                listaPeliculas.Add(datosPeliculasYSeriesDto);
+            }
+
+            reader.Close();
+            sqlConexion.Close();
+
+            return listaPeliculas;
+        }
+
+        private List<DatosPeliculasYSeriesDto> ObtenerTodasSeries()
+        {
+            List<DatosPeliculasYSeriesDto> listaSeries = new List<DatosPeliculasYSeriesDto>();            
+
+            MySqlCommand cmd = sqlConexion.CreateCommand();
+            cmd.CommandText = $"SELECT * FROM series";
+
+            sqlConexion.Open();
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                DatosPeliculasYSeriesDto datosPeliculasYSeriesDto = new DatosPeliculasYSeriesDto();
+
+                int idSerie = reader.GetInt32(COLUMNA_ID_PELICULAS_SERIES);
+                string nombreSerie = reader.GetString(COLUMNA_NOMBRE_PELICULAS_SERIES);
+                string descripcionSerie = reader.GetString(COLUMNA_DESCRIPCION_PELICULAS_SERIES);
+                string generoSerie = reader.GetString(COLUMNA_GENERO_PELICULAS_SERIES);
+                int fechaSerie = reader.GetInt32(COLUMNA_FECHA_PELICULAS_SERIES);
+                string caratulaSerie = reader.GetString(COLUMNA_CARATULA_PELICULAS_SERIES);
+
+                datosPeliculasYSeriesDto.Id = idSerie;
+                datosPeliculasYSeriesDto.Nombre = nombreSerie;
+                datosPeliculasYSeriesDto.Descripcion = descripcionSerie;
+                datosPeliculasYSeriesDto.Genero = generoSerie;
+                datosPeliculasYSeriesDto.Fecha = fechaSerie;
+                datosPeliculasYSeriesDto.Caratula = caratulaSerie;
+                datosPeliculasYSeriesDto.Tipo = "SERIE";
+                listaSeries.Add(datosPeliculasYSeriesDto);
+            }
+
+            reader.Close();
+            sqlConexion.Close();
+
+            return listaSeries;
+        }
         private List<DatosPeliculasYSeriesDto> ObtenerPeliculasPorListaId(List<int> listaIdPeliculas)
         {
             List<DatosPeliculasYSeriesDto>  listaPeliculas = ObtenerPeliculas(listaIdPeliculas);
@@ -192,7 +305,7 @@ namespace watchlist.Conexion_BBDD
                 datosPeliculasYSeriesDto.Genero = generoPelicula;
                 datosPeliculasYSeriesDto.Fecha = fechaPelicula;
                 datosPeliculasYSeriesDto.Caratula = caratulaPelicula;
-
+                datosPeliculasYSeriesDto.Tipo = "PELICULA";
                 listaPeliculas.Add(datosPeliculasYSeriesDto);
             }
 
@@ -232,7 +345,7 @@ namespace watchlist.Conexion_BBDD
                 datosPeliculasYSeriesDto.Genero = generoSerie;
                 datosPeliculasYSeriesDto.Fecha = fechaSerie;
                 datosPeliculasYSeriesDto.Caratula = caratulaSerie;
-
+                datosPeliculasYSeriesDto.Tipo = "SERIE";
                 listaSeries.Add(datosPeliculasYSeriesDto);
             }
 

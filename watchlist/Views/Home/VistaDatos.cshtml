@@ -24,13 +24,13 @@
             <button id="aceptarModal">Aceptar</button>
             <button id="cerrarModal">Cancelar</button>
 </dialog>
-<button id="catalogo">Ir al catálogo</button>
+<button id="catalogo" disabled>Ir al catálogo</button>
 
 <div id="DatosPeliculasYSeriesPorLista"></div>
 
 
 <script>
-    let global;
+    
 
     $(document).ready(function () {
 
@@ -61,6 +61,9 @@
         });
         
         $("#selector").change(function () {
+
+            $("#catalogo").prop('disabled', false);
+
             //llamo a la funcion cargar datos
             let usuarioLogin = '@Model.Usuario';
             let listaSeleccionada = $("#selector option:selected").val();
@@ -72,7 +75,7 @@
                     Usuario: usuarioLogin, IdLista: listaSeleccionada
                 },
                 success: function (htmlDatos) {
-                    global = htmlDatos;
+                    
                     $("#DatosPeliculasYSeriesPorLista").html(htmlDatos);
                 },
             })
@@ -89,13 +92,11 @@
         $('#catalogo').click(function () {
             $.ajax({
                 type: "POST",
-                url: "/Home/Catalogo",
-                data: {
-                    
-                },
+                url: "/Catalogo/CatalogoCompleto",
+                data: {},
                 success: function (html) {
 
-                    $("#Contenedor").html(html)
+                    $("#DatosPeliculasYSeriesPorLista").html(html)
                 },
             })
         });

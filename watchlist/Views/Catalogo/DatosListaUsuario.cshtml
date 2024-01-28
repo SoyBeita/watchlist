@@ -1,27 +1,50 @@
-﻿@using watchlist.Models.PeliculasYSeriesDto
+﻿@using Newtonsoft.Json
+@using watchlist.Models.PeliculasYSeriesDto
 @{
     ViewData["Title"] = "Catalogo";
 }
 @model watchlist.Models.Catalogo.InfoCompletaPeliculasYSeriesDto
 
-<h1>catalogo de peliculas</h1>
+<h1>catalogo de peliculas y series</h1>
 
 @if (Model.listaSeriesYPeliculas != null && Model.listaSeriesYPeliculas.Count > 0)
 {
-    <ul>
+    
        @foreach (DatosPeliculasYSeriesDto datos in Model.listaSeriesYPeliculas)
         {
-            <li><a href ="#" onclick="ObtenerFicha(@Html.Encode(Json.Serialize(datos)));return false">  @datos.Nombre</a></li>
+            <li>
+            <a href="#" onclick="MostrarFicha(@datos.Id)"> @datos.Nombre</a>
+        </li>
+            <table id="@datos.Id" hidden> 
+                <tr>                    
+                    <th>Descripcion</th>
+                <th>Genero</th>
+                <th>Fecha</th>
+                <th>Caratula</th>
+                </tr>                
+                <tr>
+                    <td>@datos.Descripcion</td>
+                    <td>@datos.Genero</td>
+                    <td>@datos.Fecha</td>
+                    <td><img src="@datos.Caratula"></td>
+                </tr>
+                
+            </table>
         }
-    </ul>
+    
     
 }
 
 <script>
-    let global1;
+  
 
-   function ObtenerFicha(datos){
-        global1 = datos;
-    }
+   function MostrarFicha(id){
+
+       let estaOculto = $("#" + id).prop('hidden');
+
+        $("#" + id).prop('hidden', !estaOculto);       
+   }
+
+   
 
 </script>

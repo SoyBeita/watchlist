@@ -13,11 +13,25 @@ namespace watchlist.Servicios
             Usuario = usuario;
         }
 
+        public CatalogoService()
+        {}
         public List<DatosPeliculasYSeriesDto> ObtenerPeliculasYSeries(string idLista)
         {
             Conexion_bbdd bbdd = new Conexion_bbdd();
             return bbdd.ObtenerListaPeliculasYSeries(idLista);
-        }      
+        }     
+        
+        public List<DatosPeliculasYSeriesDto> ObtenerTodoCatalogo()
+        {
+            Conexion_bbdd bbdd = new Conexion_bbdd();
+            return bbdd.ObtenerTodoCatalogo();
+        }
+
+        public bool AddNuevaPeliculaSerieALista(string idLista, string tipo, int idPeliculaSerie)
+        {
+            Conexion_bbdd bbdd = new Conexion_bbdd();
+            return bbdd.AddNuevaPeliculaSerieALista(idLista, tipo, idPeliculaSerie);
+        }
 
     }
 }

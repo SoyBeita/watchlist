@@ -1,0 +1,70 @@
+﻿@using watchlist.Models.PeliculasYSeriesDto
+@model watchlist.Models.Catalogo.InfoCompletaPeliculasYSeriesDto
+
+
+<h1>catalogo de peliculas y series</h1>
+
+
+
+@if (Model.listaSeriesYPeliculas != null && Model.listaSeriesYPeliculas.Count > 0)
+{
+
+    @foreach (DatosPeliculasYSeriesDto datos in Model.listaSeriesYPeliculas)
+    {
+        <li>
+            <input type="button" onclick="IncluirEnVista(@datos.Id, '@datos.Tipo')" value="Añadir" />
+            <a href="#" onclick="MostrarFicha(@datos.Id)"> @datos.Nombre</a></li>
+        <table id="@datos.Id" hidden>
+            <tr>
+                <th>Descripcion</th>
+                <th>Genero</th>
+                <th>Fecha</th>
+                <th>Caratula</th>
+            </tr>
+            <tr>
+                <td>@datos.Descripcion</td>
+                <td>@datos.Genero</td>
+                <td>@datos.Fecha</td>
+                <td><img src="@datos.Caratula"></td>
+            </tr>
+
+        </table>
+    }
+
+
+}
+else
+{
+    <p>No hay ni Peliculas ni series</p>
+}
+<script>
+
+function MostrarFicha(id){
+
+       let estaOculto = $("#" + id).prop('hidden');
+
+        $("#" + id).prop('hidden', !estaOculto);
+
+   }
+
+    function IncluirEnVista(idPeliculaSerie, tipo) {
+
+        let listaSeleccionada = $("#selector option:selected").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Catalogo/AddNuevaPeliculaSerieALista",
+            data: {
+                IdLista: listaSeleccionada, Tipo: tipo, idPeliculaSerie: idPeliculaSerie
+                },
+            success: function (inserccionCorrecta) {
+                if(inserccionCorrecta){
+                    alert("Pelicula o serie añadida a la lista");
+                }else{
+                    alert("Error al añadir pelicula o serie");
+                }
+            },
+        })
+    }
+
+</script>
