@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "WatchList";
+}
+
+<html>
+    <body>
+        <div class="formulario_login">
+            <h2>Inicia sesión</h2>
+            <form class="formulario" autocomplete="off">
+                <label>
+                    <input id="usuario" type="text" placeholder="Nombre de usuario" name="usuario" required />
+                </label>
+                <label>
+                    <input id="password" type="password" placeholder="Contraseña" name="password" required />
+                </label>
+                <input id="submit" type="button" name="enviar" value="Entrar" />
+                <p id="ErrorValidacionUsuarioYPass" hidden>El usuario no es válido</p>
+            </form>
+        </div>
+    </body>
+</html>
+
+
+<script>
+    let global;
+
+    $("#submit").click(function () {
+        let usuario = $("#usuario").val();
+        let password = $("#password").val()
+
+
+        if(usuario != ""  && password != "") 
+        {
+            $.ajax({
+                type: "POST",
+                url: "/login/UsuarioValido",
+                data: {
+                    Usuario: usuario, Password: password
+                },
+                    success: function (esUsuarioValido) { 
+                    console.log("El usuario es valido: " + esUsuarioValido);
+                        global = esUsuarioValido;
+                    if(esUsuarioValido){
+                        //LLAmo a funcion que devuelva la vista
+                        console.log("El usuario es valido: " + esUsuarioValido);
+                        $("#ErrorValidacionUsuarioYPass").prop('hidden', true)
+                        CargaVistaIndiceDatos(usuario, password);
+                    }
+                    else{
+                        $("#ErrorValidacionUsuarioYPass").prop('hidden', false)
+                    }                    
+                },                
+            })
+        }
+
+    })
+
+    function CargaVistaIndiceDatos(usuario, password) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/VistaDatos",
+            data: {
+                Usuario: usuario, Password: password
+            },
+            success: function (html) {
+                
+                $("#Contenedor").html(html)
+            },
+        })
+    }
+</script>
