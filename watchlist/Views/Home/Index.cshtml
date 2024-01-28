@@ -2,19 +2,21 @@
     ViewData["Title"] = "WatchList";
 }
 
-<div class="formulario_login">
-    <h2>Inicia sesión</h2>
-    <form class="formulario" autocomplete="off">
-        <label>
-            <input id="usuario" type="text" placeholder="Nombre de usuario" name="usuario" required />
-        </label>
-        <label>
-            <input id="password" type="password" placeholder="Contraseña" name="password" required />
-        </label>
-        <input id="submit" type="button" name="enviar" value="Entrar" />
-        <p id="ErrorValidacionUsuarioYPass" hidden>El usuario no es válido</p>
-    </form>
-</div>
+
+        <form class="formulario d-flex flex-column" autocomplete="off">
+            <div class="h3 text-center text-white">Login</div>
+            <div class="d-flex align-items-center input-field my-3 mb-4">
+                <span class="far fa-user p-2"></span>
+                <input id="usuario" type="text" placeholder="Nombre de usuario" name="usuario" required />
+            </div>
+            <div class="d-flex align-items-center input-field mb-4">
+                <span class="fas fa-lock p-2"></span>
+                <input id="password" type="password" placeholder="Contraseña" name="password" required />
+            </div>
+        <input id="submit" class="btn btn-outline-light" type="button" name="enviar" value="Entrar" />
+            <p id="ErrorValidacionUsuarioYPass" hidden>El usuario no es válido</p>
+        </form>
+
 
 
 

@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  
 }
 
 html {
@@ -19,5 +19,29 @@ html {
 
 body {
     margin-bottom: 60px;
+    margin-top: 100px;
+    background-image: url('https://i.pinimg.com/originals/b9/ff/80/b9ff80821b99649bc5986ccf3cb596d2.png');
+    background-size: 100vh;
 }
+
+.formulario{
+    display:flex;
+    flex-direction: column;
+    height: 500px;
+    width: 400px;
+    align-items: center;
+    margin:auto;
+    padding-top:30px;
+    background-color: rgba(0,0,0,0.7);
+    border-radius:10px;
+}
+
+.divDatos {
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    height: 80vh;
+    align-items: center;
+    padding: 30px;
+}
+
 

@@ -5,23 +5,16 @@
 }
 @model watchlist.Models.Catalogo.InfoCompletaPeliculasYSeriesDto
 
-<h1>catalogo de peliculas y series</h1>
 
 @if (Model.listaSeriesYPeliculas != null && Model.listaSeriesYPeliculas.Count > 0)
 {
-    
+    <div class="divDatos">
        @foreach (DatosPeliculasYSeriesDto datos in Model.listaSeriesYPeliculas)
         {
-            <li>
-            <a href="#" onclick="MostrarFicha(@datos.Id)"> @datos.Nombre</a>
+        <li style="list-style:none; font-size=16px;">
+            <a style="text-decoration:none; color:white;" href="#" onclick="MostrarFicha(@datos.Id)"> @datos.Nombre</a>
         </li>
-            <table id="@datos.Id" hidden> 
-                <tr>                    
-                    <th>Descripcion</th>
-                <th>Genero</th>
-                <th>Fecha</th>
-                <th>Caratula</th>
-                </tr>                
+            <table class="table-responsive-md" id="@datos.Id" hidden>
                 <tr>
                     <td>@datos.Descripcion</td>
                     <td>@datos.Genero</td>
@@ -31,6 +24,8 @@
                 
             </table>
         }
+
+    </div>
     
     
 }

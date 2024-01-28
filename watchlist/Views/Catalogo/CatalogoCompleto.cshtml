@@ -1,14 +1,9 @@
 ﻿@using watchlist.Models.PeliculasYSeriesDto
 @model watchlist.Models.Catalogo.InfoCompletaPeliculasYSeriesDto
 
-
-<h1>catalogo de peliculas y series</h1>
-
-
-
 @if (Model.listaSeriesYPeliculas != null && Model.listaSeriesYPeliculas.Count > 0)
 {
-    
+    <div class="divDatos">
     <div>
         <input type="text" id="Busqueda" placeholder="Introduce campos a buscar" />
         <input type="button" id="Buscar" value="Buscar"/>
@@ -17,9 +12,10 @@
 
     @foreach (DatosPeliculasYSeriesDto datos in Model.listaSeriesYPeliculas)
     {
-        <li>
+        <li style="list-style:none; font-size=16px;">
             <input type="button" onclick="IncluirEnVista(@datos.Id, '@datos.Tipo')" value="Añadir" />
-            <a href="#" onclick="MostrarFicha(@datos.Id)"> @datos.Nombre</a></li>
+            <a href="#" style="text-decoration:none; color:white;" onclick="MostrarFicha(@datos.Id)"> @datos.Nombre</a>
+        </li>
         <table id="@datos.Id" hidden>
             <tr>
                 <th>Descripcion</th>
@@ -37,12 +33,14 @@
         </table>
     }
 
-
+    </div>
 }
 else
 {
     <p>No hay ni Peliculas ni series</p>
 }
+
+
 <script>
 
     $("#Buscar").click(function () {
